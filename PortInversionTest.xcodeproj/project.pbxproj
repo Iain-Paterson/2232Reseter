@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		AEE99DC922CE4EE7006D5FE1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEE99DC822CE4EE7006D5FE1 /* main.cpp */; };
 		AEE99DD122CF5F47006D5FE1 /* DeviceReseter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEE99DCF22CF5F47006D5FE1 /* DeviceReseter.cpp */; };
+		AEE99DD422CF978B006D5FE1 /* DualCHTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEE99DD222CF978B006D5FE1 /* DualCHTest.cpp */; };
+		AEE99DD722D39C2C006D5FE1 /* libftd2xx.1.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE99DD622D39C2C006D5FE1 /* libftd2xx.1.4.10.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +30,9 @@
 		AEE99DC822CE4EE7006D5FE1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AEE99DCF22CF5F47006D5FE1 /* DeviceReseter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DeviceReseter.cpp; sourceTree = "<group>"; };
 		AEE99DD022CF5F47006D5FE1 /* DeviceReseter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DeviceReseter.hpp; sourceTree = "<group>"; };
+		AEE99DD222CF978B006D5FE1 /* DualCHTest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DualCHTest.cpp; sourceTree = "<group>"; };
+		AEE99DD322CF978B006D5FE1 /* DualCHTest.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DualCHTest.hpp; sourceTree = "<group>"; };
+		AEE99DD622D39C2C006D5FE1 /* libftd2xx.1.4.10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libftd2xx.1.4.10.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEE99DD722D39C2C006D5FE1 /* libftd2xx.1.4.10.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +52,7 @@
 			children = (
 				AEE99DC622CE4EE7006D5FE1 /* Products */,
 				AEE99DC722CE4EE7006D5FE1 /* PortInversionTest */,
+				AEE99DD522D39C2B006D5FE1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,7 +62,8 @@
 				AEE99DC522CE4EE7006D5FE1 /* PortInversionTest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
+			path = ../../../../Users/iain/Documents/PortInversionTest;
+			sourceTree = DEVELOPER_DIR;
 		};
 		AEE99DC722CE4EE7006D5FE1 /* PortInversionTest */ = {
 			isa = PBXGroup;
@@ -63,8 +71,18 @@
 				AEE99DC822CE4EE7006D5FE1 /* main.cpp */,
 				AEE99DCF22CF5F47006D5FE1 /* DeviceReseter.cpp */,
 				AEE99DD022CF5F47006D5FE1 /* DeviceReseter.hpp */,
+				AEE99DD222CF978B006D5FE1 /* DualCHTest.cpp */,
+				AEE99DD322CF978B006D5FE1 /* DualCHTest.hpp */,
 			);
 			path = PortInversionTest;
+			sourceTree = "<group>";
+		};
+		AEE99DD522D39C2B006D5FE1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AEE99DD622D39C2C006D5FE1 /* libftd2xx.1.4.10.dylib */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,6 +143,7 @@
 			files = (
 				AEE99DD122CF5F47006D5FE1 /* DeviceReseter.cpp in Sources */,
 				AEE99DC922CE4EE7006D5FE1 /* main.cpp in Sources */,
+				AEE99DD422CF978B006D5FE1 /* DualCHTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +265,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -254,6 +278,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

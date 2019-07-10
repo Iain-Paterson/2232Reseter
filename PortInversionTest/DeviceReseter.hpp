@@ -10,21 +10,40 @@
 #define DeviceReseter_hpp
 #include <iostream>
 #include <stdio.h>
+#include <thread>
+#include <tuple>
+#include "../ftd2xx.h"
 
+using namespace std;
 
+void RunResetTest( FT_HANDLE ftHandle,  int period, int dwell);
+
+const UCHAR RESET_MODULE_MASK = 0x00FE; // mask to pull down reset pin DO
+static std::atomic<bool> runFlag{true};
 
 class DeviceReseter
 {
+private:
+    FT_STATUS    mFtStatus = FT_OK;
+    FT_HANDLE    mFtHandle;
+    int mResetPeriod; // the reset period in seconds.
+    int mResetDwell;  // the duration the pin is pulled low in milli seconds.
+    int mPortNumber;
+    shared_ptr<std::thread> mT;
+    
+
 public:
     
     DeviceReseter();
+    ~DeviceReseter();
     DeviceReseter( int resetPeriod, int resetDwell  );
-    bool start(void);
-    bool stop(void);
+    std::tuple<FT_STATUS, std::shared_ptr<std::thread>> start(void);
+    FT_STATUS stop(void);
 private:
-    int mResetPeriod; // the reset period in seconds.
-    int mResetDwell;  // the duration the pin is pulled low in milli seconds.
+    
+    FT_STATUS InitBitmodeBySerialNo ( void );
     
 };
+
 
 #endif /* DeviceReseter_hpp */
