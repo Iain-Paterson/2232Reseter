@@ -17,11 +17,11 @@
 
 DeviceReseter::DeviceReseter()
 {
-    DeviceReseter(3,30); // default initialisation to 10 second reset period with a reset pulse of 30ms
+    DeviceReseter( chrono::seconds(3), chrono::milliseconds(30) ); // default initialisation to 10 second reset period with a reset pulse of 30ms
 }
-DeviceReseter::DeviceReseter( int resetPeriod, int resetDwell  ):mResetPeriod(resetPeriod), mResetDwell(resetDwell)
+DeviceReseter::DeviceReseter( chrono::seconds resetPeriod, chrono::milliseconds resetDwell  ):mResetPeriod(resetPeriod), mResetDwell(resetDwell)
 {
-    std::cout << "Constructing DeviceReseter with " << mResetDwell << "second reset period" << std::endl;
+    std::cout << "Constructing DeviceReseter with " << mResetDwell.count() << "second reset period" << std::endl;
     InitBitmodeBySerialNo();
     
 }
@@ -114,7 +114,7 @@ std::tuple<FT_STATUS, std::shared_ptr<std::thread>> DeviceReseter::start()
 
 
 
-void RunResetTest( FT_HANDLE ftHandle,  int period, int dwell)
+void RunResetTest( FT_HANDLE ftHandle,  chrono::seconds period, chrono::milliseconds dwell)
 {
     UCHAR outputData;
     DWORD bytesWritten;
@@ -130,7 +130,8 @@ void RunResetTest( FT_HANDLE ftHandle,  int period, int dwell)
             printf("FT_Write failed (error %d).\n", (int)ftStatus);
             goto exit;
         }
-        std::this_thread::sleep_for(std::chrono::seconds(period) - std::chrono::milliseconds(dwell));
+        //std::this_thread::sleep_for(std::chrono::seconds(period) - std::chrono::milliseconds(dwell));
+        std::this_thread::sleep_for(period - dwell);
         
         outputData = RESET_MODULE_MASK;
         ftStatus = FT_Write(ftHandle, &outputData, 1, &bytesWritten);
@@ -139,7 +140,7 @@ void RunResetTest( FT_HANDLE ftHandle,  int period, int dwell)
             printf("FT_Write failed (error %d).\n", (int)ftStatus);
             goto exit;
         }
-        std::this_thread::sleep_for( std::chrono::milliseconds(dwell) );
+        std::this_thread::sleep_for( dwell );
         
     }while(runFlag);
     
