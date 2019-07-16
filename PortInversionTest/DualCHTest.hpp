@@ -11,20 +11,28 @@
 
 #include <string>
 #include <stdio.h>
+#include "../ftd2xx.h"
 
+using namespace std;
+class DualCHTest;
 
+FT_STATUS DualCHSerialTest ( DualCHTest * dt );
 
 class DualCHTest
 {
 public:
     DualCHTest ( void );
     ~DualCHTest ( void );
+
 private:
-    bool mStartTest;
-    std::string mTestPortDescriptor;
+    bool mRunTest;
+    thread mThread;
     
-    
-    void StartSerialTest ( std::string descripter);
+    FT_STATUS InitSerialTest();
+
+public:
+    FT_STATUS start ( void );
+    FT_STATUS stop ( void );
 };
 
 #endif /* DualCHTest_hpp */

@@ -265,12 +265,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				GENERATE_PROFILING_CODE = YES;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)  ";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				WARNING_CFLAGS = "";
+				"WARNING_CFLAGS[arch=*]" = "";
 			};
 			name = Debug;
 		};
@@ -278,10 +282,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				GENERATE_PROFILING_CODE = YES;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)  ";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";

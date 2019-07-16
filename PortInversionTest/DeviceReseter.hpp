@@ -17,7 +17,9 @@
 
 using namespace std;
 
+
 void RunResetTest( FT_HANDLE ftHandle,  chrono::seconds period, chrono::milliseconds dwell);
+FT_STATUS ListDevices( void );
 
 const UCHAR RESET_MODULE_MASK = 0xFE; // mask to pull down reset pin DO
 static atomic<bool> runFlag{true};
@@ -44,7 +46,6 @@ public:
 private:
     
     FT_STATUS InitBitmodeBySerialNo ( void );
-    
 };
 
 
