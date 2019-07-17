@@ -31,7 +31,8 @@ int Boom (int argc)
 }
 
 int main(int argc, const char * argv[]) {
-    //char  burl[] = { '/','-','\\','|','/','-','\\','|'};
+    char  burl[] = { '/','-','\\','|','/','-','\\','|'};
+	int burler = 0;
     //Boom(argc);
     cout << "Hello, World!\n";
     {
@@ -41,8 +42,10 @@ int main(int argc, const char * argv[]) {
         dut->start();
         auto [r,t] = dr->start();
         thread gkt(GetKeyboardTerminate);
+		cout << "|";
         while(run)
         {
+			cout << "\b" << burl[burler++ % 8];
             this_thread::sleep_for( chrono::milliseconds(100) );
         }
         dut->stop();
