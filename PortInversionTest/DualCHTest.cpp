@@ -12,8 +12,9 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <atomic>
 
-#include <err.h>
+//#include <err.h>
 
 #include "DualCHTest.hpp"
 
@@ -173,7 +174,7 @@ FT_STATUS DualCHSerialTest( DualCHTest *dt )
 
         unsigned int bytesWritten = 0;
         ftStatus = FT_Write(fthandles[1], &TestBufferData, sizeof(TestBufferData),
-                            &bytesWritten);
+                            (LPDWORD)&bytesWritten);
         if (ftStatus != FT_OK || bytesWritten != sizeof(TestBufferData)) {
             cout << "Could not write data: status:" << ftStatus << " bytesWritten: " << bytesWritten << "\n";
             CloseBothHandles( fthandles );
@@ -189,7 +190,7 @@ FT_STATUS DualCHSerialTest( DualCHTest *dt )
         unsigned int attempts = 0;
         
         for ( int c=0 ;c < 2 ; c++ ){
-            ftStatus = FT_GetQueueStatus(fthandles[c], &rxQueue);
+            ftStatus = FT_GetQueueStatus(fthandles[c],(DWORD*) &rxQueue);
             if ( ftStatus != FT_OK)
                 cout << "Get Queue Status failed device : " << c << " with status " << ftStatus <<"\n";
            // else
@@ -197,7 +198,7 @@ FT_STATUS DualCHSerialTest( DualCHTest *dt )
         }
         
         while (1) {
-            ftStatus = FT_GetQueueStatus(fthandles[0], &rxQueue);
+            ftStatus = FT_GetQueueStatus(fthandles[0], (DWORD*)&rxQueue);
             if (ftStatus != FT_OK) {
                 onErrorRetryCount++;
                 CloseBothHandles( fthandles );
@@ -227,12 +228,12 @@ FT_STATUS DualCHSerialTest( DualCHTest *dt )
         unsigned char receiveBuffer[128];
         unsigned int bytesReceived = 0;
         ftStatus = FT_Read(fthandles[0], receiveBuffer, sizeof(receiveBuffer),
-                           &bytesReceived);
+                           (LPDWORD)&bytesReceived);
         if (ftStatus != FT_OK) {
             const char* buffer = "This test data is on port 0.\n";
             for ( int c = 0 ; c< 100 ; c++)
             {
-                if ( (ftStatus = FT_Write  (fthandles[0], (void*)buffer, sizeof(buffer), &bytesWritten)) == FT_IO_ERROR)
+                if ( (ftStatus = FT_Write  (fthandles[0], (void*)buffer, sizeof(buffer), (LPDWORD)&bytesWritten)) == FT_IO_ERROR)
                     cout << "+##";
                 this_thread::sleep_for( chrono::milliseconds(500));
             }
