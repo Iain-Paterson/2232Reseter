@@ -119,7 +119,7 @@ void RunResetTest( FT_HANDLE ftHandle,  chrono::seconds period, chrono::millisec
     FT_STATUS ftStatus;
     std::cout << "RRT++++\n";
     do{
-        std::cout << "\n*\n";
+
         // De Assert the reset pin by setting it high.
         outputData = static_cast<UCHAR>(~RESET_MODULE_MASK);
         ftStatus = FT_Write(ftHandle, &outputData, 1, &bytesWritten);
@@ -137,16 +137,17 @@ void RunResetTest( FT_HANDLE ftHandle,  chrono::seconds period, chrono::millisec
             printf("FT_Write failed (error %d).\n", (int)ftStatus);
             goto exit;
         }
-        std::this_thread::sleep_for( dwell );
+        cout << "\n";for ( int c =0 ; c < 48; c++)cout << "*";cout << "\n";
+        this_thread::sleep_for( dwell );
         
     }while(runFlag);
     
     
-    std::cout << "RRT----\n";
+    cout << "RRT----\n";
     return;
     
 exit:
-    std::cout << "RRT----Error!\n";
+    cout << "RRT----Error!\n";
     return;
     
 }

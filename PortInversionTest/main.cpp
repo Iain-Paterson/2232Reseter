@@ -61,7 +61,7 @@ void GetKeyboardTerminate( void )
     cout << "quit?\n";
     while(run)
     {
-        if ( getchar() == 'q')
+        if ( cin.get() == 'q')
             run = false;
     }
     cout << "GetKeyboardTerminate---\n";

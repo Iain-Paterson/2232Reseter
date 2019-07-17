@@ -57,6 +57,8 @@ FT_STATUS DualCHSerialTest( DualCHTest *dt )
     FT_HANDLE handleA = 0;
     FT_HANDLE handleB = 0;
     
+    char TestBufferData[128];
+    
     //std::vector<FT_HANDLE> ftHandles{ handleA, handleB };
     FT_HANDLE fthandles[] = {handleA, handleB};
     
@@ -66,6 +68,9 @@ FT_STATUS DualCHSerialTest( DualCHTest *dt )
     
     DWORD devIndex = 0;
     char buffer[64];
+    
+    for ( int c=0 ; c<128; c++ )
+        TestBufferData[c] = 'a' +c;
     
     ftStatus = FT_ListDevices( &numDevs, NULL, FT_LIST_NUMBER_ONLY);
     if( ftStatus ==FT_OK )
@@ -165,12 +170,11 @@ FT_STATUS DualCHSerialTest( DualCHTest *dt )
             cout << "Port Order Error!\n";
             continue;
         }
-        //usleep(10*1000);
-        //cout << "iteration" << iteration << " \n";
+
         unsigned int bytesWritten = 0;
-        ftStatus = FT_Write(fthandles[1], &iteration, sizeof(iteration),
+        ftStatus = FT_Write(fthandles[1], &TestBufferData, sizeof(TestBufferData),
                             &bytesWritten);
-        if (ftStatus != FT_OK || bytesWritten != sizeof(iteration)) {
+        if (ftStatus != FT_OK || bytesWritten != sizeof(TestBufferData)) {
             cout << "Could not write data: status:" << ftStatus << " bytesWritten: " << bytesWritten << "\n";
             CloseBothHandles( fthandles );
             this_thread::sleep_for(chrono::seconds(2));
@@ -220,13 +224,20 @@ FT_STATUS DualCHSerialTest( DualCHTest *dt )
         if (onErrorRetryCount)
             continue;
         
-        unsigned char receiveBuffer[4];
+        unsigned char receiveBuffer[128];
         unsigned int bytesReceived = 0;
         ftStatus = FT_Read(fthandles[0], receiveBuffer, sizeof(receiveBuffer),
                            &bytesReceived);
         if (ftStatus != FT_OK) {
-            CloseBothHandles(fthandles);
+            const char* buffer = "This test data is on port 0.\n";
+            for ( int c = 0 ; c< 100 ; c++)
+            {
+                if ( (ftStatus = FT_Write  (fthandles[0], (void*)buffer, sizeof(buffer), &bytesWritten)) == FT_IO_ERROR)
+                    cout << "+##";
+                this_thread::sleep_for( chrono::milliseconds(500));
+            }
             cout << "Could not read data: " << ftStatus << "\n";
+             CloseBothHandles(fthandles);
              this_thread::sleep_for(chrono::seconds(2));
         }
         else if (bytesReceived == 0) {
