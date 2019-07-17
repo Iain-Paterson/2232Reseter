@@ -9,6 +9,7 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <atomic>
 
 #include "DeviceReseter.hpp"
 #include "DualCHTest.hpp"
